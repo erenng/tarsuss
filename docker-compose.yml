@@ -1,11 +1,27 @@
-version: "3"
+version: "3.7"
 
 services:
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+
+  tarsus_backend:
+    image: tarsus/tarsus:v0
+    build: .
+    volumes:
+      - ./:/tarsus
     ports:
       - "5000:5000"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:12
     volumes:
-      - .:/app
+      - db:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: ${POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRES_DB: ${POSTGRESQL_DB_NAME}
+    ports:
+      - "5432:5432"
+    restart: always
+volumes:
+  db:
