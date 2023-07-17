@@ -6,7 +6,7 @@ services:
     image: tarsus/tarsus:v0
     build: .
     volumes:
-      - ./:/tarsus
+      - ./:/tarsus_backend
     ports:
       - "5000:5000"
     depends_on:
