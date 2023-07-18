@@ -10,7 +10,7 @@ class User(db.Model):
     surname = db.Column(db.String(40), nullable=False)
     phone = db.Column(db.String(14), nullable=False, unique=True)
     email = db.Column(db.String(40), nullable=False, unique=True)
-    password = db.Column(db.String(25), nullable=False)
+    password = db.Column(db.String(60), nullable=False)
 
     def to_dict(self):
         data = {
@@ -21,12 +21,9 @@ class User(db.Model):
         }
         return data
 
-    def hash_password(password):
-        password_bytes = password.encode('utf-8')
-        salt = bcrypt.gensalt()
-        hashed_password = bcrypt.hashow(password_bytes, salt)
-        return hashed_password.decode('utf-8')
-
+    def check_password(self, password):
+        is_valid = bcrypt.checkpw(self.password, password)
+        return is_valid
 
     def from_dict(self, data):
         for field in ['name', 'surname', 'phone', 'email', 'password']:
@@ -35,4 +32,11 @@ class User(db.Model):
 
 
 
+def hash_password(password):
+    password_bytes = password.encode('utf-8')
+    salt = bcrypt.gensalt()
+    hashed_password = bcrypt.hashpw(password_bytes, salt)
+    return hashed_password.decode('utf-8')
 
+def check_password():
+    pass

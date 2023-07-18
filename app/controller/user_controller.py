@@ -42,6 +42,13 @@ def create_new_user_controller(request):
     return jsonify(message="HATA!")
 
 
+def login_controller(request):
+    data = request.get_json() or {}
 
+    if 'password' not in data or 'email' not in data:
+        return abort(400, "Bilgileri eksiksiz gönderin")
 
+    if user_service.auth_user_service(data['password'], data['email']):
+        return jsonify("Giriş başarılı")
 
+    return abort(401, "Email ve Şifre kontrol ediniz")
