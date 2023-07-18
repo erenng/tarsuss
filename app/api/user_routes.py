@@ -7,4 +7,3 @@ from app.controller import user_controller
 def create_user():
     return user_controller.create_new_user_controller(request)
 
-

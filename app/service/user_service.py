@@ -10,3 +10,5 @@ def create_user_service(data):
     user = User()
     user.from_dict(data)
     return user_db.insert_user(user)
+
+
